@@ -47,7 +47,7 @@ export const MapProvider = ({ children }: Props) => {
 
     // Update state
     dispatch({ type: "setMarkers", payload: newMarkers });
-    // TODO: Limpiar polylines
+    limpiarPolylines() // Limpiar polylines
 
   }, [places])
 
@@ -57,15 +57,20 @@ export const MapProvider = ({ children }: Props) => {
     );
 
     // Add marker
-    new Marker({
-      color: "#61DBFB",
-    })
+    new Marker({ color: "#61DBFB" })
       .setLngLat(map.getCenter())
       .setPopup(myLocationPopup)
       .addTo(map);
 
     dispatch({ type: "setMap", payload: map });
   };
+
+  const limpiarPolylines = () => {
+    if (state.map?.getLayer("RouteString")) {
+      state.map?.removeLayer("RouteString")
+      state.map?.removeSource("RouteString")
+    }
+  }
 
   const getRouteBetweenPoints = async (start: [number, number], end: [number, number]) => {
     const resp = await directionsApi.get<DirectionsResponse>(`/${start.join(",")};${end.join(",")}`)
@@ -113,11 +118,7 @@ export const MapProvider = ({ children }: Props) => {
       }
     }
 
-    //TODO: Limpiar polylines si existen
-    if (state.map?.getLayer("RouteString")) {
-      state.map?.removeLayer("RouteString")
-      state.map?.removeSource("RouteString")
-    }
+    limpiarPolylines() // Limpiar polylines
 
     state.map?.addSource("RouteString", sourceData);
     state.map?.addLayer({
