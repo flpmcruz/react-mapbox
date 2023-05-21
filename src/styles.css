@@ -20,6 +20,11 @@
   border-radius: 5px;
 }
 
-.pointer {
+.query {
   cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  top: 10px;
+  font-size: 1rem;
+  zIndex: 1000;
 }

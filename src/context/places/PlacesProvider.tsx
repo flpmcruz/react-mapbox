@@ -35,7 +35,7 @@ export const PlacesProvider = ({ children }: Props) => {
 
   const searchPlacesByTerm = async (query: string): Promise<Feature[]> => {
     if (!state.userLocation) throw new Error('No se ha encontrado la ubicación del usuario')
-    
+
     if (query.length === 0) {
       dispach({ type: 'setPlaces', payload: [] })
       return []

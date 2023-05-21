@@ -10,13 +10,11 @@ export const MapView = () => {
 
     const mapDiv = useRef<HTMLDivElement>(null)
 
-    const mapStyles: string[] = ['streets-v12', 'light-v10', 'dark-v10', 'streets-v11', 'outdoors-v11', 'satellite-v9', 'satellite-streets-v11', 'navigation-day-v1', 'navigation-night-v1']
-
     useLayoutEffect(() => {
         if (!isLoading) {
             const map = new Map({
                 container: mapDiv.current!, // container ID
-                style: `mapbox://styles/mapbox/${mapStyles[0]}`,
+                style: `mapbox://styles/mapbox/streets-v12`,
                 center: userLocation, // starting position [lng, lat]
                 zoom: 14, // starting zoom
             });

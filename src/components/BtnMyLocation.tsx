@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import { BiCurrentLocation } from "react-icons/bi"
 import { MapContext, PlacesContext } from "../context"
 
 export const BtnMyLocation = () => {
@@ -17,15 +18,9 @@ export const BtnMyLocation = () => {
     return (
         <button
             className="btn btn-primary"
-            style={{
-                position: "fixed",
-                top: "20px",
-                right: "20px",
-                zIndex: 999,
-            }}
             onClick={onClick}
         >
-            Mi Ubicación
+            <BiCurrentLocation />
         </button>
     )
 }

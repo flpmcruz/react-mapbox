@@ -35,8 +35,9 @@ export const SearchResults = () => {
             {
                 places.map(place => (
                     <li
+                        role="button"
                         key={place.id}
-                        className={`pointer ${selectedPlace === place.id ? 'active text-white' : ''} list-group-item list-group-item-action}`}
+                        className={`${selectedPlace === place.id ? 'active text-white' : ''} list-group-item list-group-item-action}`}
                         onClick={() => onPlaceClick(place)}
                     >
                         <h6>{place.text_es}</h6>

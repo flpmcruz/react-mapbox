@@ -53,7 +53,7 @@ export const MapProvider = ({ children }: Props) => {
 
   const setMap = (map: Map) => {
     const myLocationPopup = new Popup({ offset: 25 }).setHTML(
-      `<h3>My Location</h3>`
+      `<h4>My Location</h4>`
     );
 
     // Add marker
@@ -78,28 +78,27 @@ export const MapProvider = ({ children }: Props) => {
     const { distance, duration, geometry } = resp.data.routes[0]
     const { coordinates: coords } = geometry
 
+    // CALCULAR DISTANCIA Y DURACIÓN
     let kms = distance / 1000;
     kms = Math.round(kms * 100);
     kms /= 100;
 
     const minutes = Math.floor(duration / 60);
-    console.log(`Distance: ${kms} kms`);
-    console.log(`Duration: ${minutes} minutes`);
+    console.log(`Distance: ${kms} kms, Duration: ${minutes} minutes`);
+    // -----------------------------
 
-    // Dibujar la ruta
-    const bounds = new LngLatBounds(
-      start,
-      end
-    );
+
+    // DIBUJAR POLYLINE (RUTA)
+    limpiarPolylines() // Limpiar polylines anterior
+
+    const bounds = new LngLatBounds(start, end);
 
     for (const coord of coords) {
       const newCoord: [number, number] = [coord[0], coord[1]]
       bounds.extend(newCoord)
     }
 
-    state.map?.fitBounds(bounds, {
-      padding: 100
-    })
+    state.map?.fitBounds(bounds, { padding: 100 })
 
     const sourceData: AnySourceData = {
       type: "geojson",
@@ -118,8 +117,6 @@ export const MapProvider = ({ children }: Props) => {
       }
     }
 
-    limpiarPolylines() // Limpiar polylines
-
     state.map?.addSource("RouteString", sourceData);
     state.map?.addLayer({
       id: "RouteString",
@@ -134,8 +131,10 @@ export const MapProvider = ({ children }: Props) => {
         "line-width": 3
       }
     });
-
   }
+
+  const updateStyle = (style: string) =>
+    state.map?.setStyle(`mapbox://styles/mapbox/${style}`);
 
   return (
     <MapContext.Provider
@@ -145,6 +144,7 @@ export const MapProvider = ({ children }: Props) => {
         // Actions
         setMap,
         getRouteBetweenPoints,
+        updateStyle,
       }}
     >
       {children}

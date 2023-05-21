@@ -8,6 +8,7 @@ interface MapContextProps {
   // Actions
   setMap: (map: Map) => void
   getRouteBetweenPoints: (start: [number, number], end: [number, number]) => Promise<void>
+  updateStyle: (style: string) => void
 }
 
 export const MapContext = createContext<MapContextProps>({} as MapContextProps);

@@ -1,13 +1,17 @@
-import { ChangeEvent, useContext, useRef } from "react"
+import { ChangeEvent, useContext, useRef, useState } from "react"
+
 import { PlacesContext } from "../context"
 import { SearchResults } from "."
 
 export const SearchBar = () => {
+    const [show, setShow] = useState(true)
+    const [query, setQuery] = useState('')
 
     const { searchPlacesByTerm } = useContext(PlacesContext)
     const deboundRef = useRef<number>()
 
     const onQueryChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setQuery(e.target.value)
 
         if (deboundRef.current) clearTimeout(deboundRef.current)
 
@@ -23,8 +27,16 @@ export const SearchBar = () => {
                 className="form-control"
                 onChange={onQueryChanged}
             />
+            {show && <SearchResults />}
 
-            <SearchResults />
+            {query.length > 0 && (
+                <p
+                    className="text-primary query"
+                    onClick={() => setShow(!show)}
+                >
+                    {show ? "Hide" : "Show"}
+                </p>
+            )}
         </div>
     )
 }
